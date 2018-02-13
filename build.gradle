@@ -1,0 +1,57 @@
+buildscript{
+    ext{
+        apiVersion = '1.0.25'
+        apiVersionType = 'RELEASE'
+        springBootVersion = '1.5.10.RELEASE'
+
+        fileVersion = '1.0.3-RELEASE'
+        s3Version = '1.0.5-RELEASE'
+        webVersion = '1.0.1-RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE"
+    }
+}
+
+
+
+group 'com.mysoft.zuul'
+version '1.0.0-SNAPSHOT'
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '4.2.1'
+  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'org.springframework.boot'
+apply plugin: "io.spring.dependency-management"
+
+sourceCompatibility = 1.8
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Dalston.RELEASE'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+
+    compile 'org.springframework.cloud:spring-cloud-starter-zuul:1.0.4.RELEASE'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
